@@ -1,4 +1,4 @@
-import { logindata, getDownloads, getDownload, updateDownload, deleteDownload } 
+import { getUser, addUser, getUsers, updateUser, deleteUser } 
 from '../controllers/downloadController'
  
 const routes = (app) => {
@@ -6,10 +6,9 @@ const routes = (app) => {
         .get(getUser)
         .post(addUser)
  
-    app.route('/download/:id')
+    app.route('/signup/:id')
         .get(getUsers)
         .put(updateUser)
         .delete(deleteUser)
 }
- 
 export default routes;
