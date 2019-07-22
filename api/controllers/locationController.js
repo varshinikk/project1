@@ -1,12 +1,13 @@
-var mongoose = require('mongoose'),
-User = mongoose.model('User');
-
-exports.createUser = function(req, res) {
-    var new_task = new User(req.body);
-    new_task.save(function(err, task) {
+import mongoose from 'mongoose'
+import locationSchema from '../models/locationModel'
+ 
+const Location = mongoose.model('Location', locationSchema)
+exports.createLocation = function(req, res) {
+    var new_data = new Location(req.body);
+    new_data.save(function(err, data) {
     if (err)
     res.send(err);
-     res.json(task);
+     res.json(data);
     });
 };
           

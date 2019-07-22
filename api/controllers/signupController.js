@@ -6,6 +6,12 @@ const cryptr = new Cryptr('myTotalySecretKey');
 
 const User = mongoose.model('User', userSchema)
 
+exports.getUser = (req, res) => {
+  User.find({}, (error, data) => {
+    if (error) { res.json(error) }
+    res.json(data)
+  })
+}
 // exports.addUser= (req, res) => {
 //     const reg= /^[a-zA-Z0-9!@#$%^&*]{5,8}$/;
 //     if(reg.test(req.body.Password))
@@ -23,7 +29,7 @@ const User = mongoose.model('User', userSchema)
 //         res.json("User Created Successfully")
 //     })
 // }
-exports.Signup = function (req, res) {
+exports.signup = function (req, res) {
   // const reg= /^[a-zA-Z0-9!@#$%^&*]{5,8}$/;
   User.find({ Email: req.body.Email }, function (err, data) {
     if (data != null && data != '') {
@@ -40,7 +46,7 @@ exports.Signup = function (req, res) {
           user.save(function (err, data) {
             if (err)
               res.json(data);
-            res.send("User Created Succesfully");
+              res.send("User Created Succesfully");
           })
         })
       })
