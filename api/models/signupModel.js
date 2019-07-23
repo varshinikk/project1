@@ -3,21 +3,21 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
-  Name: {
+  name: {
     type: String,
     required: "Name required"
   },
-  Phone_Number: {
+  phone_number: {
     type: String,
     required: "Phone Number required"
   },
-  Email: {
+  email: {
     type: String,
     // match: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{5,15}$/i,
     // match:/^[a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{5,15})$/,
     required: "Email required"
   },
-  Password: {
+  password: {
     type: String,
     // match: /^[a-zA-Z0-9!@#$%^&*]{5,8}$/,
     required: "Password required"
