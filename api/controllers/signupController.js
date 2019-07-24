@@ -12,48 +12,44 @@ exports.getUser = (req, res) => {
     res.json(data)
   })
 }
-// exports.addUser= (req, res) => {
-//     const reg= /^[a-zA-Z0-9!@#$%^&*]{5,8}$/;
-//     if(reg.test(req.body.Password))
-//     {
-//         if(req.body.Password){
-//         req.body.Password = cryptr.encrypt(req.body.Password);
-//     }
-//     } 
-//     else{
-//         req.body.Password ="";
-//     }
-//     let newUser = new User(req.body)
-//     newUser.save((error, data) => {
-//         if (error) { res.json(error) }
-//         res.json("User Created Successfully")
-//     })
-// }
-exports.signup = function (req, res) {
-  // const reg= /^[a-zA-Z0-9!@#$%^&*]{5,8}$/;
-  User.find({ Email: req.body.Email }, function (err, data) {
-    if (data != null && data != '') {
-      res.send("User Already Exists");
-    }
-    else {
-      if (req.body.password) {
-        res.send("password does not match");
+exports.signup = function (req, res) { 
+  console.log(req)
+  const reg_email = /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
+  // const reg_mob=/^[0]?[789]\d{9}$/;
+  const reg_pwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  if (!reg_pwd.test(req.body.password)) {
+    res.send('password is invalid');
+  }
+  // if(!reg_mob.test(req.body.mobile)){
+  // res.send('Mobile number is invalid');
+  // }
+  if (reg_email.test(req.body.email)) {
+    // console.log(req.body);
+    User.find({ email: req.body.email }, function (err, data) {
+      if (data != null && data != '') {
+        res.send('User already exists');
       }
-      var user = new User(req.body);
-      bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(user.Password, salt, function (err, hash) {
-          user.Password = hash;
-          user.save(function (err, data) {
-            if (err)
-              res.json(data);
-              res.send("User Created Succesfully");
+      else {
+       
+        var user = new User(req.body);
+        bcrypt.genSalt(10, function (err, salt) {
+          bcrypt.hash(user.password, salt, function (err, hash) {
+            user.password = hash;
+            user.save(function (err, data) {
+              if (err)
+                res.send(err.message);
+              // res.json(data);
+              res.json("user succesfully created");
+            })
           })
         })
-      })
-    }
-  });
+      }
+    });
+  }
+  else {
+    res.send('Email is invalid');
+  }
 };
-
 exports.signin = function (req, res) {
   User.find({ Email: req.body.Email }, function (err, data) {
     if (data != null && data != '') {

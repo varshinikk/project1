@@ -4,27 +4,27 @@ var Schema = mongoose.Schema;
 const MenuSchema = new Schema({
     roti: {
         type: String,
-        require:true
+        required:true
     },
     rice: {
         type: String,
-        require:true
+        required:true
     },
     gravy: {
         type: String,
-        require:true
+        required:true
     },
     soup: {
         type: String,
-        require:true
+        required:true
     },
     starters: {
         type: String,
-        require:true
+        required:true
     },
     ice_cream: {
         type: String,
-        require:true
+        required:true
     }
 });
 

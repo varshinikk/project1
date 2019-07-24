@@ -2,18 +2,29 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 const ResturantSchema = new Schema({
+    locationId : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "locations"
+    },
     resturant_name: {
         type: String,
-        require:true
+        required:true
     },
     ratings: {
         type: String,
-        require:true
+        required:true
     },
     delivery_timings: {
         type: String,
-        require:true
+        required:true
     }
+    // location: [
+    //     {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: "locationController",
+    //       required: "location is Required"
+    //     }
+    //   ]
 });
 
 export default ResturantSchema;
