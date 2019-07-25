@@ -8,7 +8,7 @@ const routes = (app) => {
   //signup
   app.route('/signup')
   .post(signup)
-    .get(getUser)
+  .get(getUser)
     
 
   //signin

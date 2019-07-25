@@ -13,16 +13,16 @@ exports.getUser = (req, res) => {
   })
 }
 exports.signup = function (req, res) { 
-  console.log(req)
-  const reg_email = /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
-  // const reg_mob=/^[0]?[789]\d{9}$/;
-  const reg_pwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  // console.log(req)
+  const reg_email = /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]$/;
+  const reg_mob=/^[0-9]{10}$/;
+  const reg_pwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/;
   if (!reg_pwd.test(req.body.password)) {
     res.send('password is invalid');
   }
-  // if(!reg_mob.test(req.body.mobile)){
-  // res.send('Mobile number is invalid');
-  // }
+  if(!reg_mob.test(req.body.phone_number)){
+  res.send('Mobile number is invalid');
+  }
   if (reg_email.test(req.body.email)) {
     // console.log(req.body);
     User.find({ email: req.body.email }, function (err, data) {
@@ -30,7 +30,6 @@ exports.signup = function (req, res) {
         res.send('User already exists');
       }
       else {
-       
         var user = new User(req.body);
         bcrypt.genSalt(10, function (err, salt) {
           bcrypt.hash(user.password, salt, function (err, hash) {
@@ -51,9 +50,9 @@ exports.signup = function (req, res) {
   }
 };
 exports.signin = function (req, res) {
-  User.find({ Email: req.body.Email }, function (err, data) {
+  User.find({ email: req.body.email }, function (err, data) {
     if (data != null && data != '') {
-      bcrypt.compare(req.body.Password, data[0].Password, function (err, isMatch) {
+      bcrypt.compare(req.body.password, data[0].password, function (err, isMatch) {
         if (isMatch == true) {
           res.send("User succesfully signed in");
         }

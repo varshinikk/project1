@@ -13,13 +13,10 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-    // match: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{5,15}$/i,
-    // match:/^[a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{5,15})$/,
     required: "Email required"
   },
   password: {
     type: String,
-    // match: /^[a-zA-Z0-9!@#$%^&*]{5,8}$/,
     required: "Password required"
   }
 })
