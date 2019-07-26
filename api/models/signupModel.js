@@ -3,6 +3,10 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
+  resturantId : {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "resturants"
+  },
   name: {
     type: String,
     required: "Name required"
