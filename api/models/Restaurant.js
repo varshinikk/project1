@@ -44,7 +44,7 @@ const restaurantSchema=new Schema({
         required:true
     },
     DeliveryCharge:{
-        type:'Number',
+        type:'String',
         required:true
     }
 })
