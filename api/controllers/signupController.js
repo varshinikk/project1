@@ -3,6 +3,7 @@ import userSchema from '../models/signupModel'
 import bcrypt from 'bcrypt';
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('myTotalySecretKey');
+var jwt = require('jsonwebtoken')
 
 const User = mongoose.model('User', userSchema)
 
@@ -12,16 +13,16 @@ exports.getUser = (req, res) => {
     res.json(data)
   })
 }
-exports.signup = function (req, res) { 
+exports.signup = function (req, res) {
   // console.log(req)
   const reg_email = /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]$/;
-  const reg_mob=/^[0-9]{10}$/;
+  const reg_mob = /^[0-9]{10}$/;
   const reg_pwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/;
   if (!reg_pwd.test(req.body.password)) {
     res.send('password is invalid');
   }
-  if(!reg_mob.test(req.body.phone_number)){
-  res.send('Mobile number is invalid');
+  if (!reg_mob.test(req.body.phone_number)) {
+    res.send('Mobile number is invalid');
   }
   if (reg_email.test(req.body.email)) {
     // console.log(req.body);
@@ -49,17 +50,56 @@ exports.signup = function (req, res) {
     res.send('Email is invalid');
   }
 };
-exports.signin = function (req, res) {
-  User.find({ email: req.body.email }, function (err, data) {
-    if (data != null && data != '') {
-      bcrypt.compare(req.body.password, data[0].password, function (err, isMatch) {
-        if (isMatch == true) {
-          res.send("User succesfully signed in");
-        }
-      });
-    }
-    else {
-      res.send("User does not exists");
-    }
-  });
-};
+// exports.signin = function (req, res) {
+//   User.find({ email: req.body.email }, function (err, data) {
+//     if (data != null && data != '') {
+//       bcrypt.compare(req.body.password, data[0].password, function (err, isMatch) {
+//         if (isMatch == true) {
+//           res.send("User succesfully signed in");
+//         }
+//       });
+//     }
+//     else {
+//       res.send("User does not exists");
+//     }
+//   });
+// };
+
+exports.signin = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  let loadedUser;
+  User.findOne({ email: email })
+    .then(user => {
+      if (!user) {
+        const error = new Error('A user with this email could not be found.');
+        error.statusCode = 401;
+        throw error;
+      }
+      loadedUser = user;
+      return bcrypt.compare(password, user.password);
+    })
+    .then(isEqual => {
+      if (!isEqual) {
+        const error = new Error('wrong password.');
+        error.statusCode = 401;
+        throw error;
+      }
+      const token = jwt.sign(
+        {
+          email: loadedUser.email,
+          userId: loadedUser._id.toString()
+        },
+        'secret',
+      )
+      res.status(200).json({ token: token, userId: loadedUser._id.toString() })
+    })
+
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+
+    });
+}
