@@ -87,7 +87,8 @@ exports.addMenu = (req, res, next) => {
 
     const menu = new menuModel({
         RstId: req.body.RstId,
-        menuName: req.body.menuName
+        menuName: req.body.menuName,
+        menu: req.body.menu
     })
     return menu.save()
         .then(result => {
@@ -106,7 +107,7 @@ exports.getmenuDetails = (req, res, next) => {
 
     debugger;
     // console.log(req.params)
-    menuModel.find({ RstId: { $in: req.params.rstID } })
+    menuModel.find({ Rid: { $in: req.params.rid } })
         .then(result => {
             // console.log(result);
             res.status(200).json({

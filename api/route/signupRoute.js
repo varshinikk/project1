@@ -45,7 +45,7 @@ app.get('/getbyRstId/:_id',AdminController.getRstID);
 
 //menu
 app.post('/addmenu',AdminController.addMenu);
-app.get('/getmenulist/:rstID',AdminController.getmenuDetails);
+app.get('/getmenulist/:Rid',AdminController.getmenuDetails);
 
 //food
 app.post('/addfood',AdminController.addFood);
