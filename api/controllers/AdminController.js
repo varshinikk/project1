@@ -87,12 +87,12 @@ exports.addMenu = (req, res, next) => {
 
     const menu = new menuModel({
         RstId: req.body.RstId,
-        menuName: req.body.menuName,
-        menu: req.body.menu
+        menuName: req.body.menuName
+        // menu: req.body.menu
     })
     return menu.save()
         .then(result => {
-            //   console.log(result);
+              console.log(result);
             res.status(200).json({
                 message: "menu created",
                 menu_id: result._id
@@ -107,7 +107,7 @@ exports.getmenuDetails = (req, res, next) => {
 
     debugger;
     // console.log(req.params)
-    menuModel.find({ Rid: { $in: req.params.rid } })
+    menuModel.find({ RstId: { $in: req.params.Rid} })
         .then(result => {
             // console.log(result);
             res.status(200).json({

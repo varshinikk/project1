@@ -12,7 +12,7 @@ const foodSchema=new Schema({
         required:true
     },
     cost:{
-        type:'Number',
+        type:'String',
         required:true
     }
 })

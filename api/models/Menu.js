@@ -44,9 +44,9 @@ const menuSchema=new Schema({
         type:'String',
         required:true
     },
-    menu:{
-        type:'String',
-        required:true
-    }
+    // menu:{
+    //     type:'String',
+    //     required:true
+    // }
 })
 module.exports = mongoose.model('menu',menuSchema);
