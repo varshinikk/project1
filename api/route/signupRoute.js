@@ -53,6 +53,7 @@ app.get('/getfoodlist/:menuid',AdminController.getfoodDetails);
 
 //cart
 app.post('/addcart',UsersController.addToCart);
+app.get('/getcart',UsersController.getcart);
 
 //order
 app.post('/addorder',UsersController.addOrder);

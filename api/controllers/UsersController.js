@@ -63,17 +63,39 @@ const orderModel=require('../models/Order');
 
 // cart
 exports.addToCart=(req,res,next)=>{
+    console.log("jjii")
     const cart = new cartmodel({
-       userId:req.body.userId,
-       foodId:req.body.foodId 
+       food_name:req.body.food_name,
+       price:req.body.price,
+       quantity:req.body.quantity,
+       total_price:req.body.total_price 
     })
     return cart.save()
-    .then(results=>{
+    .then(results=>{            
+        console.log(result);
         res.status(200).json({
             message:"food is added to the cart",
             cartId:results._id
         })
     })
+}
+
+exports.getcart=(req,res,next)=>{
+   cartmodel.find({})
+    .then(result=>{
+        console.log("hiiii");
+        res.status(200).json({
+            message: 'cart details based on userid',
+            result: result
+
+        }) 
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });  
 }
 
 // order
